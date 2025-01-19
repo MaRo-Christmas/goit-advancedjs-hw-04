@@ -1,18 +1,133 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
-/* Common styles */
-@import url('./reset.css');
-@import url('./base.css');
-@import url('./container.css');
-@import url('./animations.css');
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 
-/* Sections style */
-@import url('./header.css');
-@import url('./vite-promo.css');
-@import url('./badges.css');
-@import url('./back-link.css');
-@import url('./footer.css');
+.container {
+  width: 1128px;
+  margin: 0 auto;
+  padding: 36px 0;
+}
+
+.gallery-img {
+  display: block;
+  width: 100%;
+  height: 152px;
+  object-fit: cover;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.inp {
+  padding-left: 16px;
+  width: 272px;
+  height: 40px;
+  border: 1px solid rgba(128, 128, 128, 1);
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.inp:hover {
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+
+input:focus {
+  border: 1px solid rgba(78, 117, 255, 1);
+  outline: none;
+}
+
+.btn {
+  width: 90px;
+  height: 40px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(78, 117, 255, 1);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.btn:hover {
+  background-color: rgba(108, 140, 255, 1);
+}
+
+.js-gallery {
+  width: 1228px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.gallery-card {
+  width: 360px;
+  border: 1px solid rgba(128, 128, 128, 1);
+}
+
+.card-stats {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.card-stats-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  display: none;
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  border-radius: 50%;
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset;
+}
+.loader:after {
+  box-shadow: 0 2px 0 rgb(240, 144, 1) inset;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.load {
+  display: block;
+  margin: 16px auto;
+  padding: 8px 16px;
+  background-color: rgba(78, 117, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.load:hover {
+  background-color: rgba(78, 117, 255, 1);
+}

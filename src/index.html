@@ -2,22 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/normalize.css" />
     <link rel="stylesheet" href="./css/styles.css" />
+    <title>Document</title>
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
-
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
-    </main>
-
-    <load src="./partials/footer.html" />
-
-    <script type="module" src="./main.js"></script>
+    <section class="gal-sec">
+      <div class="container">
+        <form action="submit" class="form" novalidate>
+          <input
+            type="text"
+            class="inp"
+            placeholder="Search images..."
+            name="user_query"
+            required
+          />
+          <button class="btn">Search</button>
+        </form>
+        <span class="loader"></span>
+        <ul class="js-gallery"></ul>
+        <button class="load" style="display: none">Load more</button>
+      </div>
+    </section>
   </body>
+  <script type="module" src="./main.js"></script>
 </html>
