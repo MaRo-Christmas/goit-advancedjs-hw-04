@@ -13,6 +13,7 @@ const loadBtn = document.querySelector('.load');
 let page = 1;
 let userQuery = '';
 const perPage = 15;
+let totalImages = 0;
 let lightbox;
 
 form.addEventListener('submit', handleSearch);
@@ -36,13 +37,14 @@ async function handleSearch(event) {
 
   galleryEl.innerHTML = '';
   page = 1;
+  totalImages = 0;
   loadBtn.style.display = 'none';
 
   try {
     loaderEl.style.display = 'flex';
     const data = await getPhotos(userQuery, page, perPage);
 
-    if (data.total === 0) {
+    if (data.totalHits === 0) {
       iziToast.show({
         title: 'Warning',
         message:
@@ -53,6 +55,7 @@ async function handleSearch(event) {
       return;
     }
 
+    totalImages = Math.min(data.totalHits, 60);
     galleryEl.innerHTML = createMarkup(data.hits);
 
     lightbox = new SimpleLightbox('.js-gallery a', {
@@ -63,22 +66,7 @@ async function handleSearch(event) {
 
     lightbox.refresh();
 
-    if (data.hits.length > 0) {
-      lightbox.refresh();
-    }
-
-    const totalPages = Math.ceil(Math.min(data.totalHits, 500) / perPage);
-
-    if (page < totalPages) {
-      loadBtn.style.display = 'block';
-    } else {
-      iziToast.show({
-        title: 'Info',
-        message: "We're sorry, but you've reached the end of search results.",
-        position: 'center',
-        color: 'blue',
-      });
-    }
+    checkLoadMore(data.hits.length);
   } catch (err) {
     console.error('Error fetching photos:', err);
   } finally {
@@ -96,22 +84,10 @@ async function handleLoadMore() {
     const data = await getPhotos(userQuery, page, perPage);
 
     galleryEl.insertAdjacentHTML('beforeend', createMarkup(data.hits));
-
     lightbox.refresh();
-
-    const totalPages = Math.ceil(Math.min(data.totalHits, 500) / perPage);
-
-    if (page < totalPages) {
-      loadBtn.style.display = 'block';
-    } else {
-      iziToast.show({
-        title: 'Info',
-        message: 'You have reached the end of the search results.',
-        position: 'center',
-        color: 'blue',
-      });
-    }
     smoothScroll();
+
+    checkLoadMore(data.hits.length);
   } catch (err) {
     console.error('Error fetching more photos:', err);
   } finally {
@@ -120,21 +96,29 @@ async function handleLoadMore() {
 }
 
 function smoothScroll() {
-  const { height: cardHeight } =
-    galleryEl.firstElementChild.getBoundingClientRect();
+  const firstCard = galleryEl.firstElementChild;
+  if (!firstCard) return;
+
+  const { height: cardHeight } = firstCard.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 4,
+    top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
 
-  if (galleryEl.firstElementChild) {
-    const { height: cardHeight } =
-      galleryEl.firstElementChild.getBoundingClientRect();
+function checkLoadMore(receivedImages) {
+  const totalPages = Math.ceil(totalImages / perPage);
 
-    window.scrollBy({
-      top: cardHeight * 4,
-      behavior: 'smooth',
+  if (page >= totalPages || receivedImages < perPage) {
+    loadBtn.style.display = 'none';
+    iziToast.show({
+      title: 'Info',
+      message: "We're sorry, but you've reached the end of search results.",
+      position: 'center',
+      color: 'blue',
     });
+  } else {
+    loadBtn.style.display = 'block';
   }
 }
